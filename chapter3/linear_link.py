@@ -131,6 +131,27 @@ class LList:
             i += 1
         print('')
 
+    def reverse(self):
+        if self.length() > 1:
+            length = self.length()
+            for i in range(length // 2):
+                tmp1 = None
+                tmp2 = None
+                p = self._head
+                j = 0
+                for j in range(1, i+1):
+                    p = p.get_next()
+                tmp1 = p.get_elem()
+                for j in range(j+1, length-i):
+                    p = p.get_next()
+                tmp2 = p.get_elem()
+                p.set_elem(tmp1)
+                p = self._head
+                for j in range(1, i+1):
+                    p = p.get_next()
+                p.set_elem(tmp2)
+
+
 
 # 添加尾结点
 class LList1(LList):
