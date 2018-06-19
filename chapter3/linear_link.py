@@ -36,6 +36,8 @@ class LNode:
     def __str__(self):
         return 'elem: ' + str(self._elem) + '\tnext: ' + str(self._next)
 
+    __repr__ = __str__
+
 
 # 实现单链表
 class LList:
@@ -150,7 +152,6 @@ class LList:
                 for j in range(1, i+1):
                     p = p.get_next()
                 p.set_elem(tmp2)
-
 
 
 # 添加尾结点
