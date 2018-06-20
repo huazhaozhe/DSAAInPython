@@ -134,12 +134,11 @@ class LList:
         print('')
 
     def reverse(self):
-        if self.length() > 1:
-            length = self.length()
+        length = self.length()
+        if length > 1:
             for i in range(length // 2):
-                tmp1 = None
-                tmp2 = None
                 p = self._head
+                # 初始化j,因为for循环不一定会执行,否则导致j未定义错误
                 j = 0
                 for j in range(1, i+1):
                     p = p.get_next()
@@ -158,7 +157,7 @@ class LList:
 class LList1(LList):
 
     def __init__(self):
-        LList.__init__(self)
+        super().__init__()
         self._rear = None
 
     def prepend(self, elem=None):
@@ -270,7 +269,7 @@ class LCList:
 # 添加反向引用
 class DLNode(LNode):
     def __init__(self, elem=None, prev=None, next_=None):
-        LNode.__init__(self, elem, next_)
+        super().__init__(elem, next_)
         self.prev = prev
 
     def get_prev(self):
@@ -286,7 +285,7 @@ class DLNode(LNode):
 # 双链表
 class DLList(LList1):
     def __init__(self):
-        LList1.__init__(self)
+        super().__init__()
 
     def prepend(self, elem=None):
         if self._head is None:
@@ -328,6 +327,7 @@ class DLList(LList1):
             self._rear.set_next()
         return e.get_elem()
 
+# 循环双链表
 class DCList():
     def __init__(self):
         self._head = None

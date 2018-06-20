@@ -88,7 +88,7 @@ class Student(Person):
         return '1{:04}{:05}'.format(year, cls._id_num)
 
     def __init__(self, name, sex, birthday, department):
-        Person.__init__(self, name, sex, birthday)
+        super().__init__(name, sex, birthday)
         self._department = department
         self._enroll_date = datetime.date.today()
         self._courses = {}
