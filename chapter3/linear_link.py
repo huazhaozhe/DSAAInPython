@@ -442,4 +442,15 @@ class DCList(LCList):
             self._rear.set_next(p.get_next())
             p.get_next().set_prev(self._rear)
         return p.get_elem()
-    
+
+    def reverse(self):
+        length = self.length()
+        if length > 1:
+            p1 = self._rear.get_next()
+            p2 = self._rear
+            for i in range(length // 2):
+                tmp = p1.get_elem()
+                p1.set_elem(p2.get_elem())
+                p2.set_elem(tmp)
+                p1 = p1.get_next()
+                p2 = p2.get_prev()
