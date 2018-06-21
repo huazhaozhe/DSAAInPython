@@ -5,7 +5,7 @@
 # @FileName : CList.py
 # @Project  : PyCharm
 
-from .node import LNode, DLNode
+from .node import LNode, DLNode, LinkedListUnderflow
 
 
 # 循环单链表
@@ -32,10 +32,11 @@ class LCList:
     def append(self, elem):
         self.prepend(elem)
         self._rear = self._rear.get_next()
+        return self._rear
 
     def pop(self):
         if self._rear is None:
-            raise LinkedListUnderflow('in pop of CLList')
+            raise LinkedListUnderflow('in pop of LCList')
         p = self._rear.get_next()
         if self._rear is p:
             self._rear = None
@@ -143,27 +144,27 @@ class DCList(LCList):
             p = DLNode(elem, self._rear, self._rear.get_next())
             self._rear.get_next().set_prev(p)
             self._rear.set_next(p)
-        return self._rear.get_next().get_elem()
+        return self._rear.get_next()
 
     def append(self, elem=None):
         self.prepend(elem)
         self._rear = self._rear.get_next()
-        return self._rear.get_elem()
+        return self._rear
 
     def pop(self):
         if self._rear is None:
-            raise LinkedListUnderflow
+            raise LinkedListUnderflow('in pop of DCList')
         p = self._rear.get_next()
         if self._rear is p:
             self._rear = None
         else:
             p.get_next().set_prev(self._rear)
             self._rear.set_next(p.get_next())
-        return p.get_elem()
+        return p
 
     def pop_last(self):
         if self._rear is None:
-            raise LinkedListUnderflow
+            raise LinkedListUnderflow('in pop_list of DCList')
         p = self._rear
         if self._rear is p.get_next():
             self._rear = None
@@ -171,7 +172,7 @@ class DCList(LCList):
             self._rear = p.get_prev()
             self._rear.set_next(p.get_next())
             p.get_next().set_prev(self._rear)
-        return p.get_elem()
+        return p
 
     def reverse(self):
         length = self.length()

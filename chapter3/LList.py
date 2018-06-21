@@ -5,7 +5,7 @@
 # @FileName : LList.py
 # @Project  : PyCharm
 
-from .node import LNode, DLNode
+from .node import LNode, DLNode, LinkedListUnderflow
 
 # 实现单链表
 class LList:
@@ -24,10 +24,10 @@ class LList:
 
     def pop(self):
         if self._head is None:
-            raise LinkedListUnderflow('in pop')
+            raise LinkedListUnderflow('in pop of LList')
         e = self._head
         self._head = self._head.get_next()
-        return e.get_elem()
+        return e
 
     def append(self, elem=None):
         if self._head is None:
@@ -41,7 +41,7 @@ class LList:
 
     def pop_last(self):
         if self._head is None:
-            raise LinkedListUnderflow('in pop_last')
+            raise LinkedListUnderflow('in pop_last of LList')
         p = self._head
         if p.get_next() is None:
             self._head = None
@@ -134,6 +134,7 @@ class LList1(LList):
             self._rear = self._head
         else:
             self._head = LNode(elem, self._head)
+        return self._head
 
     def append(self, elem=None):
         if self._head is None:
@@ -142,6 +143,7 @@ class LList1(LList):
         else:
             self._rear.set_next(LNode(elem))
             self._rear = self._rear.get_next()
+        return self._rear
 
     def pop(self):
         if self._head is None:
@@ -150,7 +152,7 @@ class LList1(LList):
         self._head = self._head.get_next()
         if self._head is None:
             self._rear = self._head
-        return e.get_elem()
+        return e
 
     def pop_last(self):
         if self._head is None:
@@ -167,7 +169,7 @@ class LList1(LList):
         e = p.get_next()
         p.set_next()
         self._rear = p
-        return e.get_elem()
+        return e
 
     def is_empty(self):
         return self._head is None and self._rear is None
@@ -189,7 +191,7 @@ class DLList(LList1):
         else:
             self._head = DLNode(elem, next_=self._head)
             self._head.get_next().set_prev(self._head)
-        return self._head.get_elem()
+        return self._head
 
     def append(self, elem=None):
         if self._head is None:
@@ -198,7 +200,7 @@ class DLList(LList1):
         else:
             self._rear = DLNode(elem, self._rear)
             self._rear.get_prev().set_next(self._rear)
-        return self._rear.get_elem()
+        return self._rear
 
     def pop(self):
         if self._head is None:
@@ -209,7 +211,7 @@ class DLList(LList1):
             self._rear = self._head
         else:
             self._head.set_prev()
-        return e.get_elem()
+        return e
 
     def pop_last(self):
         if self._head is None:
@@ -220,7 +222,7 @@ class DLList(LList1):
             self._head = None
         else:
             self._rear.set_next()
-        return e.get_elem()
+        return e
 
     def reverse(self):
         length = self.length()

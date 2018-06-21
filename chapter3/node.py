@@ -6,6 +6,9 @@
 # @Project  : PyCharm
 
 
+class LinkedListUnderflow(Exception):
+    pass
+
 # 结点
 class LNode:
     def __init__(self, elem=None, next_=None):
