@@ -405,7 +405,7 @@ class DLList(LList1):
                 p2.set_elem(tmp)
                 p1 = p1.get_next()
                 p2 = p2.get_prev()
-                if p1 is p2 or over == 1:
+                if p1 is p2 or over == 1 or p1.get_next() is None:
                     break
                 if p1.get_next() is p2:
                     over = 1
