@@ -395,6 +395,21 @@ class DLList(LList1):
             self._rear.set_next()
         return e.get_elem()
 
+    def reverse(self):
+        if self.length() > 1:
+            over = 0
+            p1, p2 = self._head, self._rear
+            while True:
+                tmp = p1.get_elem()
+                p1.set_elem(p2.get_elem())
+                p2.set_elem(tmp)
+                p1 = p1.get_next()
+                p2 = p2.get_prev()
+                if p1 is p2 or over == 1:
+                    break
+                if p1.get_next() is p2:
+                    over = 1
+
 # 循环双链表
 class DCList():
     def __init__(self):
