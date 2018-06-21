@@ -316,14 +316,6 @@ class LCList:
             if self._rear is self._rear.get_next():
                 print(self._rear.get_elem())
             else:
-                # p = self._rear.get_next()
-                # i = 1
-                # while True:
-                #     print(i, '-', p.get_elem())
-                #     p = p.get_next()
-                #     if p is self._rear.get_next():
-                #         break
-                #     i += 1
                 p = self._rear.get_next()
                 i = 0
                 while True:
@@ -396,19 +388,17 @@ class DLList(LList1):
         return e.get_elem()
 
     def reverse(self):
-        if self.length() > 1:
-            over = 0
-            p1, p2 = self._head, self._rear
-            while True:
+        length = self.length()
+        if length > 1:
+            p1 = self._head
+            p2 = self._rear
+            for i in range(length // 2):
                 tmp = p1.get_elem()
                 p1.set_elem(p2.get_elem())
                 p2.set_elem(tmp)
                 p1 = p1.get_next()
                 p2 = p2.get_prev()
-                if p1 is p2 or over == 1 or p1.get_next() is None:
-                    break
-                if p1.get_next() is p2:
-                    over = 1
+
 
 # 循环双链表
 class DCList():
