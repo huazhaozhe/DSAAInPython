@@ -24,19 +24,14 @@ class LNode:
 
     def set_elem(self, elem=None):
         self._elem = elem
-        return self._elem
 
     def set_next(self, next=None):
         self._next = next
-        if next:
-            return self._next.get_elem()
-        else:
-            return None
 
-    def __str__(self):
-        return 'elem: ' + str(self._elem) + '\tnext: ' + str(self._next)
+    # def __repr__(self):
+    #     return 'elem: ' + str(self._elem) + '\tnext: ' + str(self._next)
 
-    __repr__ = __str__
+    # __repr__ = __str__
 
 
 # 实现单链表
@@ -97,7 +92,7 @@ class LList:
         elem_list = []
         while p is not None:
             if p.get_elem() == pred:
-                elem_list.append((i, p.get_elem()))
+                elem_list.append((i, p))
             i += 1
             p = p.get_next()
         return elem_list
@@ -107,19 +102,19 @@ class LList:
         while p is not None:
             elem = p.get_elem()
             if pred(elem):
-                yield elem
+                yield p
             p = p.get_next()
 
     def for_each(self, proc):
         p = self._head
         while p is not None:
-            proc(p.get_elem())
+            p.set_elem(proc(p.get_elem()))
             p = p.get_next()
 
     def elements(self):
         p = self._head
         while p is not None:
-            yield p.get_elem()
+            yield p
             p = p.get_next()
 
     def printall(self):
@@ -201,8 +196,11 @@ class LList1(LList):
         self._rear = p
         return e.get_elem()
 
+    def is_empty(self):
+        return self._head is None and self._rear is None
+
     def set_empty(self):
-        self._head = None
+        super().set_empty()
         self._rear = None
 
 
@@ -215,6 +213,9 @@ class LCList:
 
     def is_empty(self):
         return self._rear is None
+
+    def set_empty(self):
+        self._rear = None
 
     def prepend(self, elem):
         if self._rear is None:
@@ -239,6 +240,74 @@ class LCList:
             self._rear.set_next(p.get_next())
         return p
 
+    def length(self):
+        p, n = self._rear, 0
+        while p is not None:
+            n += 1
+            p = p.get_next()
+            if p is self._rear:
+                break
+        return n
+
+    def find(self, elem):
+        elems_list = []
+        if self._rear is not None:
+            p, i = self._rear.get_next(), 0
+            while True:
+                if p.get_elem() == elem:
+                    elems_list.append((i, p))
+                p = p.get_next()
+                if p is self._rear.get_next():
+                    break
+                i += 1
+        return elems_list
+
+    def filter(self, pred):
+        if self._rear is not None:
+            p = self._rear.get_next()
+            while True:
+                elem = p.get_elem()
+                if pred(elem):
+                    yield p
+                p = p.get_next()
+                if p is self._rear.get_next():
+                    break
+
+    def for_each(self, proc):
+        p = self._rear
+        while p is not None:
+            p.set_elem(proc(p.get_elem()))
+            p = p.get_next()
+            if p is self._rear:
+                break
+
+    def elements(self):
+        if self._rear is not None:
+            p = self._rear.get_next()
+            while True:
+                yield p
+                p = p.get_next()
+                if p is self._rear.get_next():
+                    break
+    def reverse(self):
+        length = self.length()
+        if length > 1:
+            for i in range(length // 2):
+                p = self._rear.get_next()
+                # 初始化j,因为for循环不一定会执行,否则导致j未定义错误
+                j = 0
+                for j in range(1, i+1):
+                    p = p.get_next()
+                tmp1 = p.get_elem()
+                for j in range(j+1, length-i):
+                    p = p.get_next()
+                tmp2 = p.get_elem()
+                p.set_elem(tmp1)
+                p = self._rear.get_next()
+                for j in range(1, i+1):
+                    p = p.get_next()
+                p.set_elem(tmp2)
+
     def printall(self):
         if self._rear is None:
             print('empty list')
@@ -255,9 +324,8 @@ class LCList:
                 #     if p is self._rear.get_next():
                 #         break
                 #     i += 1
-
                 p = self._rear.get_next()
-                i = 1
+                i = 0
                 while True:
                     print(i, '-', p.get_elem())
                     if p is self._rear:
