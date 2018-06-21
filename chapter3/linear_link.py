@@ -204,7 +204,6 @@ class LList1(LList):
         self._rear = None
 
 
-
 # 循环单链表
 class LCList:
 
@@ -314,7 +313,7 @@ class LCList:
         else:
             # 单个结点
             if self._rear is self._rear.get_next():
-                print(self._rear.get_elem())
+                print(0, '-', self._rear.get_elem())
             else:
                 p = self._rear.get_next()
                 i = 0
@@ -401,67 +400,46 @@ class DLList(LList1):
 
 
 # 循环双链表
-class DCList():
+class DCList(LCList):
     def __init__(self):
-        self._head = None
+        super().__init__()
 
     def prepend(self, elem=None):
-        if self._head is None:
-            self._head = DLNode(elem)
-            self._head.set_next(self._head)
-            self._head.set_prev(self._head)
+        if self._rear is None:
+            self._rear = DLNode(elem)
+            self._rear.set_next(self._rear)
+            self._rear.set_prev(self._rear)
         else:
-            self._head = DLNode(elem, self._head.get_prev(), self._head)
-            self._head.get_prev().set_next(self._head)
-            self._head.get_next().set_prev(self._head)
-        return self._head.get_elem()
+            p = DLNode(elem, self._rear, self._rear.get_next())
+            self._rear.get_next().set_prev(p)
+            self._rear.set_next(p)
+        return self._rear.get_next().get_elem()
 
     def append(self, elem=None):
         self.prepend(elem)
-        self._head = self._head.get_next()
-        return self._head.get_elem()
+        self._rear = self._rear.get_next()
+        return self._rear.get_elem()
 
     def pop(self):
-        if self._head is None:
+        if self._rear is None:
             raise LinkedListUnderflow
-        p = self._head
-        if self._head is p.get_next():
-            self._head = None
+        p = self._rear.get_next()
+        if self._rear is p:
+            self._rear = None
         else:
-            self._head = p.get_next()
-            self._head.set_prev(p.get_prev())
-            p.get_prev().set_next(self._head)
+            p.get_next().set_prev(self._rear)
+            self._rear.set_next(p.get_next())
         return p.get_elem()
 
     def pop_last(self):
-        if self._head is None:
+        if self._rear is None:
             raise LinkedListUnderflow
-        p = self._head.get_prev()
-        if self._head is p:
-            self._head = None
+        p = self._rear
+        if self._rear is p.get_next():
+            self._rear = None
         else:
-            self._head.set_prev(p.get_prev())
-            p.get_prev().set_next(self._head)
+            self._rear = p.get_prev()
+            self._rear.set_next(p.get_next())
+            p.get_next().set_prev(self._rear)
         return p.get_elem()
-
-    def length(self):
-        if self._head is None:
-            return 0
-        p = self._head
-        i = 1
-        while p.get_next() is not self._head:
-            i += 1
-            p = p.get_next()
-        return i
-
-    def printall(self):
-        if self._head is None:
-            return 'DCList list is empty'
-        i = 1
-        p = self._head
-        while True:
-            print(i, ' - ', p.get_elem())
-            p = p.get_next()
-            if p is self._head:
-                break
-            i += 1
+    
