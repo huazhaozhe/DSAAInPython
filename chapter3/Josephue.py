@@ -25,3 +25,11 @@ def josephus_A(n, k, m):
         else:
             print(', ', end='')
 
+def josephus_B(n, k, m):
+    people = list(range(1, n + 1))
+    i = k - 1
+    while people:
+        length = len(people)
+        i = (i + m - 1) % length
+        num = people.pop(i)
+        print(num, end=(', ' if length != 1 else '\n'))
