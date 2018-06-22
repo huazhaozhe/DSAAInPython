@@ -46,14 +46,14 @@ class Josephus(LCList):
         for i in range(1, self.n + 1):
             self.append(i)
 
+    def turn(self, m):
+        for i in range(m):
+            self._rear = self._rear.get_next()
+
     def run(self):
-        for i in range(self.k-1):
-            self._rear = self._rear.get_next()
-        count = 1
+        self.turn(self.k - 1)
         while not self.is_empty():
-            self._rear = self._rear.get_next()
-            count += 1
-            if count == self.m:
-                count = 1
-                num = self.pop()
-                print(num.get_elem(), end=(', ' if self.length() != 0 else '\n'))
+            self.turn(self.m - 1)
+            num = self.pop()
+            print(num.get_elem(),
+                  end=(', ' if self.length() != 0 else '\n'))
