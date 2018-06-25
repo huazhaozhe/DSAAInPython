@@ -86,3 +86,35 @@ def check_parens(text):
         print('All pass')
         result['match'] = True
     return result
+
+class ESStack(SStack):
+
+    def depath(self):
+        return len(self._elems)
+
+def suf_exp_evalustor(exp):
+    operators = '+-*/'
+    st = ESStack()
+    exp = exp.split()
+    for x in exp:
+        if x not in operators:
+            st.push(float(x))
+            continue
+        if st.depath() < 2:
+            raise SyntaxError('Short of operand(s).')
+        b = st.pop()
+        a = st.pop()
+        if x == '+':
+            c = a + b
+        elif x == '-':
+            c = a - b
+        elif x == '*':
+            c = a * b
+        elif x == '/':
+            if b == 0:
+                raise ZeroDivisionError('division by zero')
+            c = a / b
+        st.push(c)
+    if st.depath() == 1:
+        return st.pop()
+    raise SyntaxError('Extra operand(s).')
