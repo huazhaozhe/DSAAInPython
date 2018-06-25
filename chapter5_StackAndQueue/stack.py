@@ -19,7 +19,7 @@ class SStack():
 
     def top(self):
         if self.is_empty():
-            raise StackUnderflow('stack is empty')
+            raise StackUnderflow('In SStack.top: stack is empty')
         return self._elems[-1]
 
     def push(self, elem):
@@ -27,5 +27,31 @@ class SStack():
 
     def pop(self):
         if self.is_empty():
-            raise StackUnderflow('stack is empty')
+            raise StackUnderflow('In SStack.pop: stack is empty')
         return self._elems.pop()
+
+
+from chapter3_LinearList.node import *
+
+class LStack():
+
+    def __init__(self):
+        self._top = None
+
+    def is_empty(self):
+        return self._top is None
+
+    def top(self):
+        if self.is_empty():
+            raise StackUnderflow('In LStack.top: stack is empty')
+        return self._top.get_elem()
+
+    def push(self, elem):
+        self._top = LNode(elem, self._top)
+
+    def pop(self):
+        if self.is_empty():
+            raise StackUnderflow('In LStack.pop: stack is empty')
+        p = self._top
+        self._top = self._top.get_next()
+        return p.get_elem()
