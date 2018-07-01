@@ -87,10 +87,12 @@ def check_parens(text):
         result['match'] = True
     return result
 
+
 class ESStack(SStack):
 
     def depath(self):
         return len(self._elems)
+
 
 def suf_exp_evalustor(exp):
     operators = '+-*/'
@@ -119,21 +121,30 @@ def suf_exp_evalustor(exp):
         return st.pop()
     raise SyntaxError('Extra operand(s).')
 
+
 def trans_infix_suffix(line):
-    operators = '+-*/'
+    operators = '+-*/()'
     st = SStack()
     exp = []
     line = line.split()
     for x in line:
+        if x == '(':
+            exp.append(x)
+            continue
+        if x == ')':
+            while exp[-1] != '(':
+                st.push(exp.pop())
+            exp.pop()
+            continue
         if x not in operators:
             st.push(x)
             continue
         if x in '+-':
-            while exp:
+            while exp and exp[-1] in '+-*/':
                 st.push(exp.pop())
             exp.append(x)
             continue
-        while exp[-1] in '*/':
+        while exp and exp[-1] in '*/':
             st.push(exp.pop())
         exp.append(x)
 
