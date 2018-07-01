@@ -123,30 +123,28 @@ def suf_exp_evalustor(exp):
 
 def trans_infix_suffix(line):
     operators = '+-*/()'
+    property = {'(': 1, '+': 3, '-': 3, '*': 5, '/': 5}
     st = SStack()
     exp = []
     line = line.split()
     for x in line:
         if x == '(':
             st.push(x)
-            continue
-        if x == ')':
+        elif x == ')':
             while st.top() != '(':
                 exp.append(st.pop())
-            st.pop()
-            continue
-        if x not in operators:
+            try:
+                st.pop()
+            except:
+                raise SyntaxError("Missing '('.")
+        elif x not in operators:
             exp.append(x)
-            continue
-        if x in '+-':
-            while not st.is_empty() and st.top() in '+-*/':
+        else:
+            while not st.is_empty() and property[st.top()] >= property[x]:
                 exp.append(st.pop())
             st.push(x)
-            continue
-        while not st.is_empty() and st.top() in '*/':
-            exp.append(st.pop())
-        st.push(x)
-
     while not st.is_empty():
+        if st.top() == '(':
+            raise SyntaxError("Extra '('.")
         exp.append(st.pop())
     return exp
