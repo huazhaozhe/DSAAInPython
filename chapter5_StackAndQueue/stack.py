@@ -118,3 +118,28 @@ def suf_exp_evalustor(exp):
     if st.depath() == 1:
         return st.pop()
     raise SyntaxError('Extra operand(s).')
+
+def trans_infix_suffix(line):
+    operators = '+-*/'
+    st = SStack()
+    exp = []
+    line = line.split()
+    for x in line:
+        if x not in operators:
+            st.push(x)
+            continue
+        if x in '+-':
+            while exp:
+                st.push(exp.pop())
+            exp.append(x)
+            continue
+        while exp[-1] in '*/':
+            st.push(exp.pop())
+        exp.append(x)
+
+    while exp:
+        st.push(exp.pop())
+    result = []
+    while not st.is_empty():
+        result.insert(0, st.pop())
+    return result
