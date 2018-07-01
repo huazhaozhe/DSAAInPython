@@ -16,6 +16,6 @@ def test_trans_infix_suffixs(s):
     correct_value = eval(s)
     tran = trans_infix_suffix(s)
     print(tran)
-    value = suf_exp_evalustor(' '.join(tran))
+    value = suf_exp_evalustor(tran)
     print(correct_value, value)
     assert correct_value == value

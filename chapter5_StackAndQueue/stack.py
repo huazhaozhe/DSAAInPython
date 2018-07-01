@@ -97,7 +97,6 @@ class ESStack(SStack):
 def suf_exp_evalustor(exp):
     operators = '+-*/'
     st = ESStack()
-    exp = exp.split()
     for x in exp:
         if x not in operators:
             st.push(float(x))
@@ -129,28 +128,25 @@ def trans_infix_suffix(line):
     line = line.split()
     for x in line:
         if x == '(':
-            exp.append(x)
-            continue
-        if x == ')':
-            while exp[-1] != '(':
-                st.push(exp.pop())
-            exp.pop()
-            continue
-        if x not in operators:
             st.push(x)
             continue
-        if x in '+-':
-            while exp and exp[-1] in '+-*/':
-                st.push(exp.pop())
+        if x == ')':
+            while st.top() != '(':
+                exp.append(st.pop())
+            st.pop()
+            continue
+        if x not in operators:
             exp.append(x)
             continue
-        while exp and exp[-1] in '*/':
-            st.push(exp.pop())
-        exp.append(x)
+        if x in '+-':
+            while not st.is_empty() and st.top() in '+-*/':
+                exp.append(st.pop())
+            st.push(x)
+            continue
+        while not st.is_empty() and st.top() in '*/':
+            exp.append(st.pop())
+        st.push(x)
 
-    while exp:
-        st.push(exp.pop())
-    result = []
     while not st.is_empty():
-        result.insert(0, st.pop())
-    return result
+        exp.append(st.pop())
+    return exp
