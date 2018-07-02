@@ -148,3 +148,15 @@ def trans_infix_suffix(line):
             raise SyntaxError("Extra '('.")
         exp.append(st.pop())
     return exp
+
+
+def norec_fact(n):
+    res = 1
+    st = SStack()
+    while n > 0:
+        st.push(n)
+        n -= 1
+    while not st.is_empty():
+        res *= st.pop()
+    return res
+
