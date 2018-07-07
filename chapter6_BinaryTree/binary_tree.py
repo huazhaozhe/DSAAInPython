@@ -257,3 +257,24 @@ def levelorder(t, proc):
         qu.enqueue(t.left)
         qu.enqueue(t.right)
         proc(t.data)
+
+from chapter5_StackAndQueue.stack import *
+
+def preorder_nonrec(t, proc):
+    s = SStack()
+    while t is not None or not s.is_empty():
+        while t is not None:
+            proc(t.data)
+            s.push(t.right)
+            t = t.left
+        t = s.pop()
+
+
+def preorder_elements(t):
+    s = SStack()
+    while t is not None or not s.is_empty():
+        while t is not None:
+            s.push(t.right)
+            yield t.data
+            t = t.left
+        t = s.pop()
