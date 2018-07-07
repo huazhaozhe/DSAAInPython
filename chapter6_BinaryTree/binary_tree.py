@@ -215,3 +215,45 @@ def sum_BinTNode(t):
         return 0
     else:
         return t.data + sum_BinTNode(t.left) + sum_BinTNode(t.right)
+
+def preorder(t, proc):
+    '''
+    先根序遍历
+    :param t: 二叉树类BinTNode
+    :param proc: 节点数据操作
+    :return: 返回None
+    '''
+    if t is None:
+        return
+    proc(t.data)
+    preorder(t.left, proc)
+    preorder(t.right, proc)
+
+def print_BinTNodes(t):
+    if t is None:
+        print('^', end='')
+        return
+    print('('+str(t.data), end='')
+    print_BinTNodes(t.left)
+    print_BinTNodes(t.right)
+    print(')', end='')
+
+
+from chapter5_StackAndQueue.queue import *
+
+def levelorder(t, proc):
+    '''
+    宽度优先遍历
+    :param t: 二叉树
+    :param proc: 节点数据操作
+    :return: 返回None
+    '''
+    qu = Squeue()
+    qu.enqueue(t)
+    while not qu.is_empty():
+        n = qu.dequeue()
+        if t is None:
+            continue
+        qu.enqueue(t.left)
+        qu.enqueue(t.right)
+        proc(t.data)
