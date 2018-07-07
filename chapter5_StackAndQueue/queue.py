@@ -8,7 +8,7 @@
 class QueueUnderflow(ValueError):
     pass
 
-class Squeue():
+class SQueue():
     '''
     队列的list实现
     '''

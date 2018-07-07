@@ -204,17 +204,20 @@ class BinTNode():
         self.left = left
         self.right = right
 
+
 def count_BinTNode(t):
     if t is None:
         return 0
     else:
-        return 1+count_BinTNode(t.left) + count_BinTNode(t.right)
+        return 1 + count_BinTNode(t.left) + count_BinTNode(t.right)
+
 
 def sum_BinTNode(t):
     if t is None:
         return 0
     else:
         return t.data + sum_BinTNode(t.left) + sum_BinTNode(t.right)
+
 
 def preorder(t, proc):
     '''
@@ -229,17 +232,19 @@ def preorder(t, proc):
     preorder(t.left, proc)
     preorder(t.right, proc)
 
+
 def print_BinTNodes(t):
     if t is None:
         print('^', end='')
         return
-    print('('+str(t.data), end='')
+    print('(' + str(t.data), end='')
     print_BinTNodes(t.left)
     print_BinTNodes(t.right)
     print(')', end='')
 
 
 from chapter5_StackAndQueue.queue import *
+
 
 def levelorder(t, proc):
     '''
@@ -248,17 +253,19 @@ def levelorder(t, proc):
     :param proc: 节点数据操作
     :return: 返回None
     '''
-    qu = Squeue()
+    qu = SQueue(10)
     qu.enqueue(t)
     while not qu.is_empty():
-        n = qu.dequeue()
+        t = qu.dequeue()
         if t is None:
             continue
         qu.enqueue(t.left)
         qu.enqueue(t.right)
         proc(t.data)
 
+
 from chapter5_StackAndQueue.stack import *
+
 
 def preorder_nonrec(t, proc):
     s = SStack()
@@ -278,3 +285,28 @@ def preorder_elements(t):
             yield t.data
             t = t.left
         t = s.pop()
+
+
+def postorder_nonrec(t, proc):
+    s = SStack()
+    while t is not None or not s.is_empty():
+        while t is not None:
+            s.push(t)
+            t = t.left if t.left is not None else t.right
+        t = s.pop()
+        proc(t.data)
+        if not s.is_empty() and t is s.top().left:
+            # 左子结点遍历完成,遍历右子结点
+            t = s.top().right
+        elif not s.is_empty() and t is s.top().right:
+            # 右子结点遍历完成,下一步是弹出父结点
+            # 将t设为None防止子结点再次入栈再次遍历一遍下面的子结点(退栈)
+            t = None
+        else:
+            # 根节点,退栈
+            t = None
+        '''
+        可以合并为:
+        else:
+            t = None
+        '''
