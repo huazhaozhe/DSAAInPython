@@ -195,3 +195,23 @@ class PrioQueue():
             elems[i] = elems[j]
             i, j = j, j * 2 + 1
         elems[i] = e
+
+
+class BinTNode():
+
+    def __init__(self, dat, left=None, right=None):
+        self.data = dat
+        self.left = left
+        self.right = right
+
+def count_BinTNode(t):
+    if t is None:
+        return 0
+    else:
+        return 1+count_BinTNode(t.left) + count_BinTNode(t.right)
+
+def sum_BinTNode(t):
+    if t is None:
+        return 0
+    else:
+        return t.data + sum_BinTNode(t.left) + sum_BinTNode(t.right)
