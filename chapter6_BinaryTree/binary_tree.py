@@ -6,27 +6,33 @@
 # @Project  : PyCharm
 
 
-
 def BinTree(data, left=None, right=None):
     return [data, left, right]
+
 
 def is_empty_BinTree(btree):
     return btree is None
 
+
 def root(btree):
     return btree[0]
+
 
 def left(btree):
     return btree[1]
 
+
 def right(btree):
     return btree[2]
+
 
 def set_root(btree, data):
     btree[0] = data
 
+
 def set_left(btree, left):
     btree[1] = left
+
 
 def set_right(btree, right):
     btree[2] = right
@@ -35,17 +41,22 @@ def set_right(btree, right):
 def make_sum(a, b):
     return ('+', a, b)
 
+
 def make_diff(a, b):
     return ('-', a, b)
+
 
 def make_prod(a, b):
     return ('*', a, b)
 
+
 def make_div(a, b):
     return ('/', a, b)
 
+
 def is_basic_exp(a):
     return not isinstance(a, tuple)
+
 
 def is_number(x):
     return isinstance(x, int) or isinstance(x, float) or isinstance(x, complex)
@@ -60,6 +71,7 @@ def eval_sum(a, b):
         return a
     return make_sum(a, b)
 
+
 def eval_diff(a, b):
     if is_number(a) and is_number(b):
         return a - b
@@ -68,6 +80,7 @@ def eval_diff(a, b):
     if is_number(b) and b == 0:
         return a
     return make_diff(a, b)
+
 
 def eval_prod(a, b):
     if is_number(a) and is_number(b):
@@ -78,6 +91,7 @@ def eval_prod(a, b):
         return 0
     return make_prod(a, b)
 
+
 def eval_div(a, b):
     if is_number(b) and b == 0:
         raise ZeroDivisionError
@@ -86,7 +100,6 @@ def eval_div(a, b):
     if is_number(a) and a == 0:
         return 0
     return make_div(a, b)
-
 
 
 def eval_exp(e):
@@ -108,6 +121,7 @@ def eval_exp(e):
 class PrioQueueError(ValueError):
     pass
 
+
 class PrioQue():
     def __init__(self, elist=[]):
         self._elems = list(elist)
@@ -120,19 +134,19 @@ class PrioQue():
                 i -= 1
             else:
                 break
-        self._elems.insert(i+1, e)
+        self._elems.insert(i + 1, e)
 
     def is_empty(self):
         return not self._elems
 
     def peek(self):
         if self.is_empty():
-            raise PrioQueueError
+            raise PrioQueueError('in peek')
         return self._elems[-1]
 
     def dequeue(self):
         if self.is_empty():
-            raise PrioQueueError
+            raise PrioQueueError('in dequeue')
         return self._elems.pop()
 
 
@@ -147,7 +161,7 @@ class PrioQueue():
 
     def peek(self):
         if self.is_empty():
-            raise PrioQueueError
+            raise PrioQueueError('in peek')
         return self._elems[0]
 
     def enqueue(self, e):
@@ -159,4 +173,25 @@ class PrioQueue():
         while i > 0 and e < elems[j]:
             elems[i] = elems[j]
             i, j = j, (j - 1) // 2
+        elems[i] = e
+
+    def dequeue(self):
+        if self.is_empty():
+            raise PrioQueueError('in dequeue')
+        elems = self._elems
+        e0 = elems[0]
+        e = elems.pop()
+        if len(elems) > 0:
+            self.siftdown(e, 0, len(elems))
+        return e0
+
+    def sifdown(self, e, begin, end):
+        elems, i, j = self._elems, begin, begin * 2 + 1
+        while j < end:
+            if j + 1 < end and elems[j + 1] < elems[j]:
+                j += 1
+            if e < elems[j]:
+                break
+            elems[i] = elems[j]
+            i, j = j, j * 2 + 1
         elems[i] = e
