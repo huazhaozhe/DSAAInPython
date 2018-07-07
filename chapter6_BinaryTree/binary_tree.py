@@ -6,7 +6,7 @@
 # @Project  : PyCharm
 
 
-def BinTree(data, left=None, right=None):
+def bin_tree(data, left=None, right=None):
     return [data, left, right]
 
 
@@ -310,3 +310,50 @@ def postorder_nonrec(t, proc):
         else:
             t = None
         '''
+
+
+class BinTreeError(ValueError):
+    pass
+
+class BinTree():
+
+    def __init__(self):
+        self._root = None
+
+    def is_empty(self):
+        return self._root is None
+
+    def root(self):
+        return self._root
+
+    def leftchild(self):
+        if self.is_empty():
+            raise BinTreeError('BinTree is None')
+        return self._root.left
+
+    def rightchild(self):
+        if self.is_empty():
+            raise BinTreeError('BinTree is None')
+        return self._root.righr
+
+    def set_root(self, rootnode):
+        self._root = rootnode
+
+    def set_left(self, leftnode):
+        if self.is_empty():
+            raise BinTreeError()
+        self._root.left = leftnode
+
+    def set_right(self, rightnode):
+        if self.is_empty():
+            raise BinTreeError()
+        self._root.righr = rightnode
+
+    def preorder_elements(self):
+        t, s = self._root, SStack()
+        while t is not None or not s.is_empty():
+            while t is not None:
+                s.push(t.right)
+                yield t.data
+                t = t.left
+            t = s.pop()
