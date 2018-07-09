@@ -24,6 +24,8 @@ def insert_sort(lst):
 def select_sort(lst):
     '''
     选择排序
+    不稳定举例: [5, 8, 5, 2, 9],第一个5和第二个5
+    改变交换的方式,比如和插入排序一后移可以使其稳定
     :param lst: 同insert_sort
     :return: 同insert_sort
     '''
@@ -34,3 +36,22 @@ def select_sort(lst):
                 index = j
         if lst[index] < lst[i]:
             lst[i], lst[index] = lst[index], lst[i]
+
+
+def hubble_sort1(lst):
+    '''
+    交换排序: 冒泡法
+    :param lst: 同insert_sort
+    :return: 同insert_sort
+    '''
+
+    count = len(lst) - 1
+    while count > 0:
+        found = False
+        for i in range(count):
+            if lst[i + 1] < lst[i]:
+                lst[i], lst[i + 1] = lst[i + 1], lst[i]
+                found = True
+        if not found:
+            break
+        count -= 1
